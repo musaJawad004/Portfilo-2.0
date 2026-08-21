@@ -1,3 +1,4 @@
 {
-  "buildCommand": "NITRO_PRESET=vercel corepack yarn exec vite build"
+  "buildCommand": "NITRO_PRESET=vercel corepack yarn exec vite build",
+  "framework": null
 }
