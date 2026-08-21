@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="120" height="105" patternUnits="userSpaceOnUse">
+      <path d="M120 0H0V105" fill="none" stroke="#dfdfd8" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#f5f5f1"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <text x="54" y="298" fill="#151515" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="700" letter-spacing="-2">Muhammad Musa</text>
+  <text x="54" y="390" fill="#151515" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="400" letter-spacing="-1">I Build AI Products That Actually Ship.</text>
+</svg>
