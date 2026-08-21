@@ -1,4 +1,3 @@
 {
-  "buildCommand": "NITRO_PRESET=vercel corepack yarn exec vite build",
-  "outputDirectory": ".output"
+  "buildCommand": "NITRO_PRESET=vercel corepack yarn exec vite build"
 }
