@@ -1,26 +1,42 @@
 import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
 import { access, readFile } from "node:fs/promises";
-import test from "node:test";
+import { fileURLToPath } from "node:url";
+import test, { after, before } from "node:test";
+
+const port = 42000 + (process.pid % 1000);
+let server;
+
+before(async () => {
+  const projectRoot = fileURLToPath(new URL("../", import.meta.url));
+
+  server = spawn(process.execPath, ["scripts/preview-vercel-build.mjs"], {
+    cwd: projectRoot,
+    env: { ...process.env, PORT: String(port), HOST: "127.0.0.1" },
+    stdio: "ignore",
+  });
+
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/`);
+      if (response.ok) return;
+    } catch {
+      // The server may still be binding the port; retry until the deadline.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  throw new Error("Production server did not start in time.");
+});
+
+after(() => {
+  server?.kill("SIGTERM");
+});
 
 async function render(pathname = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${pathname}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`http://localhost${pathname}`, {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  return fetch(`http://127.0.0.1:${port}${pathname}`, {
+    headers: { accept: "text/html" },
+  });
 }
 
 test("server-renders the Muhammad Musa portfolio", async () => {
@@ -37,6 +53,17 @@ test("server-renders the Muhammad Musa portfolio", async () => {
   assert.match(html, /AI Agents &amp; Automation/);
   assert.match(html, /START A PROJECT/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview/);
+});
+
+test("renders the moderated guestbook", async () => {
+  const response = await render("/guestbook");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /Guestbook\./);
+  assert.match(html, /SIGN GUESTBOOK/);
+  assert.match(html, /REVIEWED BEFORE PUBLISHING/);
+  assert.match(html, /MUHAMMAD MUSA/);
 });
 
 test("includes the SEO and CI surfaces for production", async () => {

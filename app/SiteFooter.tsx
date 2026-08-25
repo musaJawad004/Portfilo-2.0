@@ -153,6 +153,7 @@ export function SiteFooter() {
       <div className="site-footer-bottom">
         <p>MUHAMMAD MUSA / AI ENGINEER + PRODUCT BUILDER</p>
         <p>AI / MOBILE / FULL STACK</p>
+        <a href="/guestbook">GUESTBOOK ↗</a>
         <a href="/privacy">PRIVACY POLICY ↗</a>
         <p>© 2026</p>
       </div>

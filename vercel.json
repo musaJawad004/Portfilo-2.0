@@ -1,4 +1,10 @@
 {
   "buildCommand": "NITRO_PRESET=vercel corepack yarn exec vite build",
-  "framework": null
+  "framework": null,
+  "crons": [
+    {
+      "path": "/api/newsletter/daily",
+      "schedule": "0 13 * * *"
+    }
+  ]
 }

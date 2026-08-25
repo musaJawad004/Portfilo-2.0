@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./newsletter/newsletter.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -97,7 +98,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         {children}
         <script

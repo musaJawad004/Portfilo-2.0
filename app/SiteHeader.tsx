@@ -12,7 +12,9 @@ const navItems = [
 
 export function SiteHeader() {
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [compactMenuOpen, setCompactMenuOpen] = useState(false);
   const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const compactMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const target = window.sessionStorage.getItem("portfolio-section");
@@ -24,6 +26,27 @@ export function SiteHeader() {
       if (servicesCloseTimer.current) window.clearTimeout(servicesCloseTimer.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (!compactMenuOpen) return;
+
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (!compactMenuRef.current?.contains(event.target as Node)) {
+        setCompactMenuOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setCompactMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePress);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePress);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [compactMenuOpen]);
 
   const openServices = () => {
     if (servicesCloseTimer.current) {
@@ -47,6 +70,7 @@ export function SiteHeader() {
 
   const goToSection = (target: string) => {
     setServicesOpen(false);
+    setCompactMenuOpen(false);
     if (document.getElementById(target)) {
       jumpToTarget(target);
       return;
@@ -70,6 +94,8 @@ export function SiteHeader() {
         ))}
 
         <a className="nav-blog-link" href="/blog">Blog</a>
+        <a className="nav-blog-link" href="/newsletter">Newsletter</a>
+        <a className="nav-blog-link" href="/guestbook">Guestbook</a>
 
         <div
           className={`nav-services-menu${servicesOpen ? " is-open" : ""}`}
@@ -117,6 +143,63 @@ export function SiteHeader() {
         <a className="nav-cta nav-cta-call" href="https://calendly.com/musajawad004/" target="_blank" rel="noreferrer">
           [ BOOK A CALL ]
         </a>
+      </div>
+
+      <div className={`nav-compact-menu${compactMenuOpen ? " is-open" : ""}`} ref={compactMenuRef}>
+        <button
+          className="nav-compact-trigger"
+          type="button"
+          aria-label={compactMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-controls="compact-navigation-panel"
+          aria-expanded={compactMenuOpen}
+          onClick={() => setCompactMenuOpen((open) => !open)}
+        >
+          <span aria-hidden="true"><i /><i /><i /></span>
+        </button>
+
+        <div className="nav-compact-panel" id="compact-navigation-panel">
+          <header>
+            <span>NAVIGATION / MENU</span>
+            <strong>ALL OPTIONS</strong>
+          </header>
+
+          <div className="nav-compact-primary">
+            {navItems.map((item, index) => (
+              <button type="button" onClick={() => goToSection(item.target)} key={item.label}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.label}</strong>
+              </button>
+            ))}
+            <a href="/blog" onClick={() => setCompactMenuOpen(false)}>
+              <span>04</span><strong>Blog</strong>
+            </a>
+            <a href="/newsletter" onClick={() => setCompactMenuOpen(false)}>
+              <span>05</span><strong>Newsletter</strong>
+            </a>
+            <a href="/guestbook" onClick={() => setCompactMenuOpen(false)}>
+              <span>06</span><strong>Guestbook</strong>
+            </a>
+          </div>
+
+          <div className="nav-compact-services-heading">
+            <span>007 / SERVICES</span>
+            <strong>SELECT A CAPABILITY</strong>
+          </div>
+          <div className="nav-compact-services">
+            {services.map((service) => (
+              <a href={`/services/${service.slug}`} key={service.slug} onClick={() => setCompactMenuOpen(false)}>
+                <span>{service.number}</span>
+                <strong>{service.title}</strong>
+                <b aria-hidden="true">↗</b>
+              </a>
+            ))}
+          </div>
+
+          <footer>
+            <button type="button" onClick={() => goToSection("contact")}>[ START A PROJECT ]</button>
+            <a href="https://calendly.com/musajawad004/" target="_blank" rel="noreferrer">[ BOOK A CALL ]</a>
+          </footer>
+        </div>
       </div>
     </nav>
   );

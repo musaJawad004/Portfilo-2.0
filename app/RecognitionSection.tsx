@@ -42,6 +42,14 @@ const certifications = [
     credential: "xmjiy83q3pqs",
     href: "https://verify.skilljar.com/c/xmjiy83q3pqs",
   },
+  {
+    number: "03",
+    title: "Agentic AI with Python & LangChain",
+    issuer: "FREEACADEMY.AI",
+    date: "08.2026",
+    credential: "FA-2026-AAPL-UNGXY4",
+    href: "https://freeacademy.ai/verify/FA-2026-AAPL-UNGXY4",
+  },
 ];
 
 export function RecognitionSection() {
@@ -50,7 +58,7 @@ export function RecognitionSection() {
       <header className="recognition-heading">
         <div>
           <p>006 / RECOGNITION</p>
-          <span>05 VERIFIED RECORDS</span>
+          <span>06 VERIFIED RECORDS</span>
         </div>
         <h2 id="recognition-title">Recognition</h2>
         <p>HONORS, AWARDS, AND CERTIFICATIONS EARNED THROUGH PRODUCT WORK.</p>
@@ -83,7 +91,7 @@ export function RecognitionSection() {
         <article className="recognition-panel certifications-panel">
           <header>
             <span>CERTIFICATIONS</span>
-            <span>02 / ANTHROPIC</span>
+            <span>03 / VERIFIED</span>
           </header>
           <div className="certification-list">
             {certifications.map((certificate) => (
