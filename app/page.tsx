@@ -10,6 +10,7 @@ import { WorldMap } from "@/components/ui/map";
 import { SmoothMotion } from "./SmoothMotion";
 import { SiteFooter } from "./SiteFooter";
 import { LatestBlogSection } from "./LatestBlogSection";
+import { NewsletterSection } from "./NewsletterSection";
 
 export default function Home() {
   return (
@@ -213,6 +214,7 @@ export default function Home() {
       <ExperienceSection />
       <RecognitionSection />
       <LatestBlogSection />
+      <NewsletterSection />
       <SiteFooter />
       </main>
       </div>

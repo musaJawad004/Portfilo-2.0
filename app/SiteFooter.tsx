@@ -64,7 +64,7 @@ export function SiteFooter() {
     <footer className="site-footer" aria-labelledby="contact-title">
       <header className="site-footer-heading">
         <div>
-          <p>009 / CONTACT</p>
+          <p>010 / CONTACT</p>
           <h2 id="contact-title">Let&apos;s Build Something Real.</h2>
         </div>
         <p>AVAILABLE / LAHORE / REMOTE</p>
