@@ -1,0 +1,3 @@
+# The repository's own detectors quote the signatures they look for,
+# so each one is told to skip the other.
+.github/scripts/malware_scan.py
